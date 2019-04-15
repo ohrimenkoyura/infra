@@ -1,0 +1,32 @@
+{
+ "variables": {
+           "proj_id": "required",
+           "source_image": "required",
+           "machine_type": "required"
+	},
+
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "{{user `proj_id`}}",
+      "source_image": "{{user `source_image`}}",
+      "ssh_username": "packer",
+      "disk_size": 50,
+      "machine_type": "{{user `machine_type`}}",
+      "zone": "us-central1-a"
+    }
+
+  ],
+
+      "provisioners": [
+          {
+           "type": "shell",
+           "script": "scripts/install_ruby.sh"
+          },
+         {
+            "type": "shell",
+            "script": "scripts/install_mongodb.sh",
+            "execute_command": "sudo {{.Path}}"
+	} ]
+
+}
